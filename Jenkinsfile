@@ -75,6 +75,6 @@ pipeline {
 //                  sh 'ansible-playbook playbook.yml'
 //             }
 //         }
-//       }
-//     }
+      }
+    }
 
