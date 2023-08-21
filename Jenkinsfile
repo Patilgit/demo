@@ -12,7 +12,7 @@ pipeline {
             steps{
                 script{
                     build.maveninstall()
-                    )
+                }
             }
         }
         
