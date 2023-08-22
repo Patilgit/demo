@@ -15,5 +15,14 @@ pipeline {
                 }
             }
         }
-        
-       
+        stage('Docker buuid'){
+            steps{
+                script{
+                    docker.dockerbuild()
+                    docker.dockertag()
+                    docker.dockerpush()
+                }
+            }
+        }
+    }       
+}
