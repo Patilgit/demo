@@ -19,8 +19,6 @@ pipeline {
             steps{
                 script{
                     docker.dockerbuild()
-                    docker.dockertag()
-                    docker.dockerpush()
                 }
             }
         }
