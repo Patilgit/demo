@@ -1,4 +1,4 @@
-@Library("shared-library") _
+@Library('test-library') _
 pipeline {
     agent any
     
@@ -11,7 +11,7 @@ pipeline {
        stage('Build'){
             steps{
                 script{
-                    build()
+                    build.maven()
                 }
             }
         }
