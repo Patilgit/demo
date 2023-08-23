@@ -11,16 +11,16 @@ pipeline {
        stage('Build'){
             steps{
                 script{
-                  mvn clean install
+                 build.maven()
                 }
             }
         }
         stage('Docker buuid'){
             steps{
                 script{
-              mkdir kp
-            }
+             docker.dockerbuild()
+                     }
+                }
+            }       
         }
-    }       
- }
 }
