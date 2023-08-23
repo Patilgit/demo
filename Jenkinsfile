@@ -11,17 +11,16 @@ pipeline {
        stage('Build'){
             steps{
                 script{
-                    build.maven()
+                  mvn clean install
                 }
             }
         }
-    //     stage('Docker buuid'){
-    //         steps{
-    //             script{
-    //           docker build -t darshan .
-                  
-    //         }
-    //     }
-    // }       
-}
+        stage('Docker buuid'){
+            steps{
+                script{
+              docker build -t darshan .
+            }
+        }
+    }       
+ }
 }
