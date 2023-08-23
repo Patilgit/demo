@@ -18,7 +18,7 @@ pipeline {
         stage('Docker buuid'){
             steps{
                 script{
-              docker build -t darshan .
+              mkdir kp
             }
         }
     }       
