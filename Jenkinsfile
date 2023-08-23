@@ -19,7 +19,7 @@ pipeline {
             steps{
                 script{
               docker build -t darshan .
-                  }
+                  
             }
         }
     }       
