@@ -17,9 +17,7 @@ pipeline {
         }
         stage('Docker buuid'){
             steps{
-                 script{
-                   docker build -t darshan .
-                      }
+               sh 'docker build -t darshan .'
             }
         }
     }       
