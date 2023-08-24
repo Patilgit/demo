@@ -16,10 +16,10 @@ pipeline {
             }
        } 
         stage('sonarqube-analysis'){
-            steps{
-                withSonarQubeEnv(credentialsId: 'sonar-token') {
-    // some block
-}
+           steps{
+                withSonarQubeEnv('sonar-token') { 
+                 sh "mvn clean package sonar:sonar"
+                }
             }
         }
         stage('Docker buuid'){
