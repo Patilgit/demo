@@ -14,6 +14,13 @@ pipeline {
                  build.maven()
                 }
             }
+       } 
+        stage('sonarqube-analysis'){
+            steps{
+                withSonarQubeEnv(credentialsId: 'sonar-token') {
+    // some block
+}
+            }
         }
         stage('Docker buuid'){
             steps{
