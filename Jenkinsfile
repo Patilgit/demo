@@ -17,7 +17,7 @@ pipeline {
        } 
         stage('sonarqube-analysis'){
            steps{
-                withSonarQubeEnv('sonar') { 
+                withSonarQubeEnv('sonar-test') { 
                  sh "mvn clean install sonar:sonar -Dsonar.java.binaries=**/*.java"
                 }
             }
