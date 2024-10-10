@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.4.3">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Test Plan" enabled="true">
+      <stringProp name="TestPlan.comments"></stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+    </TestPlan>
+    <hashTree>
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="Slaves Info" enabled="true">
+        <collectionProp name="Arguments.arguments">
+          <elementProp name="SLAVE_NUMBER" elementType="Argument">
+            <stringProp name="Argument.name">SLAVE_NUMBER</stringProp>
+            <stringProp name="Argument.value">${__FileToString(/slave_number.txt)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="SLAVES_COUNT" elementType="Argument">
+            <stringProp name="Argument.name">SLAVES_COUNT</stringProp>
+            <stringProp name="Argument.value">${__FileToString(/slaves_count.txt)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+        </collectionProp>
+      </Arguments>
+      <hashTree/>
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="Test Defaults" enabled="true">
+        <collectionProp name="Arguments.arguments">
+          <elementProp name="DEFAULT_INFLUXDB_URL" elementType="Argument">
+            <stringProp name="Argument.name">DEFAULT_INFLUXDB_URL</stringProp>
+            <stringProp name="Argument.value">http://influxdb.default:8086/write?db=jmeter</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="DEFAULT_TEST_NAME" elementType="Argument">
+            <stringProp name="Argument.name">DEFAULT_TEST_NAME</stringProp>
+            <stringProp name="Argument.value">loadtest-${__time()}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="DEFAULT_TEST_THREADS" elementType="Argument">
+            <stringProp name="Argument.name">DEFAULT_TEST_THREADS</stringProp>
+            <stringProp name="Argument.value">100</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="DEFAULT_TESTED_SERVICE_URL" elementType="Argument">
+            <stringProp name="Argument.name">DEFAULT_TESTED_SERVICE_URL</stringProp>
+            <stringProp name="Argument.value">nav-staging-green.trafficmanager.net</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="DEFAULT_RAMP_UP_DURATION" elementType="Argument">
+            <stringProp name="Argument.name">DEFAULT_RAMP_UP_DURATION</stringProp>
+            <stringProp name="Argument.value">300</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="DEFAULT_API_KEY" elementType="Argument">
+            <stringProp name="Argument.name">DEFAULT_API_KEY</stringProp>
+            <stringProp name="Argument.value">test_key</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+        </collectionProp>
+      </Arguments>
+      <hashTree/>
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="Threads Info" enabled="true">
+        <collectionProp name="Arguments.arguments">
+          <elementProp name="THREADS_COUNT" elementType="Argument">
+            <stringProp name="Argument.name">THREADS_COUNT</stringProp>
+            <stringProp name="Argument.value">${__P(TEST_THREADS, ${DEFAULT_TEST_THREADS})}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+        </collectionProp>
+      </Arguments>
+      <hashTree/>
+      <DNSCacheManager guiclass="DNSCachePanel" testclass="DNSCacheManager" testname="DNS Cache Manager" enabled="true">
+        <collectionProp name="DNSCacheManager.servers"/>
+        <boolProp name="DNSCacheManager.clearEachIteration">false</boolProp>
+        <boolProp name="DNSCacheManager.isCustomResolver">false</boolProp>
+      </DNSCacheManager>
+      <hashTree/>
+      <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+        <collectionProp name="HeaderManager.headers">
+          <elementProp name="" elementType="Header">
+            <stringProp name="Header.name">Host</stringProp>
+            <stringProp name="Header.value">api-navigation.as-cloud.tomtom-global.com</stringProp>
+          </elementProp>
+        </collectionProp>
+      </HeaderManager>
+      <hashTree/>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="All Tiles Test" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <intProp name="LoopController.loops">-1</intProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">${__P(TEST_THREADS, ${DEFAULT_TEST_THREADS})}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">${__P(RAMP_UP_DURATION, ${DEFAULT_RAMP_UP_DURATION})}</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration">${__P(TEST_DURATION, ${DEFAULT_TEST_DURATION})}</stringProp>
+        <stringProp name="ThreadGroup.delay">0</stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+      </ThreadGroup>
+      <hashTree>
+        <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="parameters">${SLAVES_COUNT} ${SLAVE_NUMBER} ${THREADS_COUNT}  ${__threadNum} ${__iterationNum()}</stringProp>
+          <stringProp name="script">int maxTileIndex = 134217728
+
+int slavesCount = Integer.decode(args[0])
+int slaveNumber = Integer.decode(args[1])
+
+int threadsCount = Integer.decode(args[2])
+int threadNumber = Integer.decode(args[3])
+
+int iterationNumber = Integer.decode(args[4])
+
+int samplesPerSlave = (maxTileIndex / slavesCount) + 1
+int slaveRangeMin = (samplesPerSlave * (slaveNumber - 1)) + 1
+
+
+int samplesPerThread = (samplesPerSlave / threadsCount) + 1
+int threadRangeMin = (samplesPerThread * (threadNumber - 1)) + slaveRangeMin
+
+int tileIndex = threadRangeMin + iterationNumber - 1
+
+// -- Stop Thread when samplesPerThread are done
+if (iterationNumber &gt; samplesPerThread || tileIndex &gt; maxTileIndex) {
+	ctx.getThread().stop()
+	return 0
+}
+
+// --- calculate X ---
+double maxXInLod = 16383
+int x = (int) (tileIndex  % (maxXInLod + 1) == 0 ? maxXInLod : (tileIndex  % (maxXInLod + 1)) - 1)
+vars.put(&quot;x&quot;, String.valueOf(x))
+
+
+// --- calculate Y ---
+int y = (int) (tileIndex % (maxXInLod + 1) == 0 ? tileIndex  / (maxXInLod + 1) - 1 : tileIndex / (maxXInLod + 1))
+vars.put(&quot;y&quot;, String.valueOf(y))
+</stringProp>
+          <stringProp name="scriptLanguage">groovy</stringProp>
+        </JSR223PreProcessor>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP Request - NAV" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="apiKey" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">${__P(API_KEY, ${DEFAULT_API_KEY})}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">apiKey</stringProp>
+              </elementProp>
+              <elementProp name="loadtest" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">${__P(TEST_NAME, ${DEFAULT_TEST_NAME})}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">loadtest</stringProp>
+              </elementProp>
+              <elementProp name="nocache" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">true</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">nocache</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${__P(TESTED_SERVICE_URL, ${DEFAULT_TESTED_SERVICE_URL})}</stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/v1/navigationtile/${x}/${y}</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.implementation">HttpClient4</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout">20000</stringProp>
+          <stringProp name="HTTPSampler.response_timeout">80000</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="JSR223 PostProcessor" enabled="true">
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="script">vars.putObject(&quot;responseBody&quot;, prev.getResponseData());
+</stringProp>
+            <stringProp name="scriptLanguage">groovy</stringProp>
+          </JSR223PostProcessor>
+          <hashTree/>
+          <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="JSR223 Assertion" enabled="true">
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="script">import com.tomtom.navkit2.navigation.NavigationTileProtos
+
+
+try{
+	byte[] responseBody = (byte[]) vars.getObject(&quot;responseBody&quot;)
+	if(responseBody.length == 0){
+		throw new Exception(&quot;Empty Response!&quot;)
+	}
+	NavigationTileProtos.TileResponse.parseFrom(responseBody)
+	AssertionResult.setFailure(false)
+} catch (Exception e) {
+	AssertionResult.setFailureMessage(&quot;Invalid response: &quot; + e.getMessage())
+	AssertionResult.setFailure(true)
+}
+</stringProp>
+            <stringProp name="scriptLanguage">groovy</stringProp>
+          </JSR223Assertion>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP Request - Lane" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="apiKey" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">${__P(API_KEY, ${DEFAULT_API_KEY})}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">apiKey</stringProp>
+              </elementProp>
+              <elementProp name="loadtest" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">${__P(TEST_NAME, ${DEFAULT_TEST_NAME})}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">loadtest</stringProp>
+              </elementProp>
+              <elementProp name="nocache" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">true</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">nocache</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${__P(TESTED_SERVICE_URL, ${DEFAULT_TESTED_SERVICE_URL})}</stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/v1/lanetile/${x}/${y}</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.implementation">HttpClient4</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout">20000</stringProp>
+          <stringProp name="HTTPSampler.response_timeout">80000</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="JSR223 PostProcessor" enabled="true">
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="script">vars.putObject(&quot;responseBody&quot;, prev.getResponseData());
+</stringProp>
+            <stringProp name="scriptLanguage">groovy</stringProp>
+          </JSR223PostProcessor>
+          <hashTree/>
+          <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="JSR223 Assertion" enabled="true">
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="script">import com.tomtom.navkit2.navigation.TileExtensionProtos
+
+
+try{
+	byte[] responseBody = (byte[]) vars.getObject(&quot;responseBody&quot;)
+	if(responseBody.length == 0){
+		throw new Exception(&quot;Empty Response!&quot;)
+	}
+	TileExtensionProtos.TileExtensionResponse.parseFrom(responseBody).getLane()
+	AssertionResult.setFailure(false)
+} catch (Exception e) {
+	AssertionResult.setFailureMessage(&quot;Invalid response: &quot; + e.getMessage())
+	AssertionResult.setFailure(true)
+}
+</stringProp>
+            <stringProp name="scriptLanguage">groovy</stringProp>
+          </JSR223Assertion>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+      <BackendListener guiclass="BackendListenerGui" testclass="BackendListener" testname="InfluxDB Reporter" enabled="false">
+        <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
+          <collectionProp name="Arguments.arguments">
+            <elementProp name="influxdbMetricsSender" elementType="Argument">
+              <stringProp name="Argument.name">influxdbMetricsSender</stringProp>
+              <stringProp name="Argument.value">org.apache.jmeter.visualizers.backend.influxdb.HttpMetricsSender</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="influxdbUrl" elementType="Argument">
+              <stringProp name="Argument.name">influxdbUrl</stringProp>
+              <stringProp name="Argument.value">${__P(INFLUXDB_URL, ${DEFAULT_INFLUXDB_URL})}</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="application" elementType="Argument">
+              <stringProp name="Argument.name">application</stringProp>
+              <stringProp name="Argument.value">${__P(TEST_NAME, ${DEFAULT_TEST_NAME})}</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="measurement" elementType="Argument">
+              <stringProp name="Argument.name">measurement</stringProp>
+              <stringProp name="Argument.value">jmeter</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="summaryOnly" elementType="Argument">
+              <stringProp name="Argument.name">summaryOnly</stringProp>
+              <stringProp name="Argument.value">true</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="samplersRegex" elementType="Argument">
+              <stringProp name="Argument.name">samplersRegex</stringProp>
+              <stringProp name="Argument.value">.*</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="percentiles" elementType="Argument">
+              <stringProp name="Argument.name">percentiles</stringProp>
+              <stringProp name="Argument.value">90</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="testTitle" elementType="Argument">
+              <stringProp name="Argument.name">testTitle</stringProp>
+              <stringProp name="Argument.value">${__P(TEST_NAME, ${DEFAULT_TEST_NAME})}</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="eventTags" elementType="Argument">
+              <stringProp name="Argument.name">eventTags</stringProp>
+              <stringProp name="Argument.value">lod=${lod}</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+          </collectionProp>
+        </elementProp>
+        <stringProp name="classname">org.apache.jmeter.visualizers.backend.influxdb.InfluxdbBackendListenerClient</stringProp>
+      </BackendListener>
+      <hashTree/>
+      <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="true">
+        <boolProp name="ResultCollector.error_logging">true</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>false</time>
+            <latency>false</latency>
+            <timestamp>false</timestamp>
+            <success>false</success>
+            <label>false</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>false</threadName>
+            <dataType>false</dataType>
+            <encoding>false</encoding>
+            <assertions>false</assertions>
+            <subresults>false</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <url>true</url>
+          </value>
+        </objProp>
+        <stringProp name="filename">summary_report.csv</stringProp>
+      </ResultCollector>
+      <hashTree/>
+      <kg.apc.jmeter.reporters.AutoStop guiclass="kg.apc.jmeter.reporters.AutoStopGui" testclass="kg.apc.jmeter.reporters.AutoStop" testname="jp@gc - AutoStop Listener" enabled="true">
+        <stringProp name="TestPlan.comments">Auto stops verification test in case of high error rate</stringProp>
+        <stringProp name="avg_response_time"></stringProp>
+        <stringProp name="avg_response_time_length"></stringProp>
+        <stringProp name="error_rate">20</stringProp>
+        <stringProp name="error_rate_length">60</stringProp>
+        <stringProp name="avg_response_latency"></stringProp>
+        <stringProp name="avg_response_latency_length"></stringProp>
+      </kg.apc.jmeter.reporters.AutoStop>
+      <hashTree/>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>
